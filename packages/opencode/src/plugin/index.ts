@@ -3,7 +3,7 @@ import { Config } from "../config/config"
 import { Bus } from "../bus"
 import { Log } from "../util/log"
 import { createOpencodeClient } from "@opencode-ai/sdk"
-import { BunProc } from "../bun"
+import { Npm } from "../npm"
 import { Flag } from "../flag/flag"
 import { CodexAuthPlugin } from "./codex"
 import { Session } from "../session"
@@ -101,7 +101,7 @@ export namespace Plugin {
                 const idx = plugin.lastIndexOf("@")
                 const pkg = idx > 0 ? plugin.substring(0, idx) : plugin
                 const version = idx > 0 ? plugin.substring(idx + 1) : "latest"
-                plugin = await BunProc.install(pkg, version).catch((err) => {
+                plugin = await Npm.add(idx > 0 ? `${pkg}@${version}` : pkg).catch((err) => {
                   const cause = err instanceof Error ? err.cause : err
                   const detail = cause instanceof Error ? cause.message : String(cause ?? err)
                   log.error("failed to install plugin", { pkg, version, error: detail })
