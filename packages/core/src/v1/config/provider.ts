@@ -112,6 +112,10 @@ export const Info = Schema.Struct({
           description:
             "Timeout in milliseconds between streamed SSE chunks for this provider. If no chunk arrives within this window, the request is aborted.",
         }),
+        promptVariant: Schema.optional(Schema.Literals(["frontier"])).annotate({
+          description:
+            "Select an alternate system prompt variant. 'frontier' uses the frontier-tuned prompt for GPT (non-codex) and Claude families; other families fall back to the baseline. Unset means baseline. Can be overridden per-model via model.options.promptVariant.",
+        }),
       }),
       [Schema.Record(Schema.String, Schema.Any)],
     ),
